@@ -12,3 +12,5 @@ The output should be:
 adg adh adi aeg aeh aei afg afh afi
 bdg bdh bdi beg beh bei bfg bfh bfi
 cdg cdh cdi ceg ceh cei cfg cfh cfi
+
+Once we commenced the assignment, we decided to work out each our own solutions to the problem. We did so in separate branches within the same repo. Each branch was labelled after the person who worked on it. After working on the project for about a week, we came together and looked through each our code. Jed had a superior solution to the generateCombos() problem, so his was used. Rishab's running loop in main() was used along with Georgijs's generateWords() feature. Both the main() and generateWords() functions were refactored by Jed for efficiency and readability, as well as to suite the inputs and outputs of the functions.
