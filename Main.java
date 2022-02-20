@@ -20,23 +20,33 @@ public class Main {
     {'w', 'x', 'y', 'z'}
   };
 
-  private static String[] calculateCombos(int digits) {
+  // recursive solution to generate all character combinations for digits pressed
+  private static String[] generateCombos(int digits) {
+    // base case
     if (digits == 0) return new String[] {""};
 
-    int lastDigit = digits % 10;
-    int lessDigits = digits / 10;
+    // split digits into head (last digit) and tail (remaining digits)
+    int head = digits % 10;
+    int tail = digits / 10;
 
-    String[] combos = calculateCombos(lessDigits);
-    char[] chars = numpad[lastDigit];
+    // recurse on the tail digits
+    String[] combos = generateCombos(tail);
+    // get all possible characters for head digit
+    char[] chars = numpad[head];
 
+    // declare new combos (unfinished combos with new characters appended)
     ArrayList<String> newCombos = new ArrayList<String>();
 
+    // for each unfinished combo
     for (String combo : combos) {
-      for (int i = 0, len = chars.length; i < len; i++) {
-        newCombos.add(combo + chars[i]);
+      // for each possible new character
+      for (char ch : chars) {
+        // append new character to unfinished combo
+        newCombos.add(combo + ch);
       }
     }
 
+    // return new combos array
     return newCombos.toArray(new String[0]);
   }
   
@@ -51,7 +61,7 @@ public class Main {
       try {
         int digits = in.nextInt();
         // Integer[] digits = handleInput(input);
-        String[] combos = calculateCombos(digits);
+        String[] combos = generateCombos(digits);
         System.out.println("All possible combinations are as follows:\n" + String.join(" ", combos));
       }
       catch (InputMismatchException ex) {
