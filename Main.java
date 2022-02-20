@@ -20,7 +20,7 @@ public class Main {
     {'w', 'x', 'y', 'z'}
   };
 
-  // recursive solution to generate all character combinations for digits pressed
+  // recursive function to generate all character combinations for digits pressed
   private static String[] generateCombos(int digits) {
     // base case
     if (digits == 0) return new String[] {""};
@@ -31,7 +31,7 @@ public class Main {
 
     // recurse on the tail digits
     String[] combos = generateCombos(tail);
-    // get all possible characters for head digit
+    // get corresponding characters for head digit
     char[] chars = numpad[head];
 
     // declare new combos (unfinished combos with new characters appended)
@@ -50,80 +50,95 @@ public class Main {
     return newCombos.toArray(new String[0]);
   }
 
-  
-  // simple function to turn an integer into an array of the integer's digits
-  public static int[] numToDigitArray(int num) {
-    String[] temp = Integer.toString(num).split("");
-    int[] numArray = new int[temp.length];
-    for(int i = 0; i < temp.length; i++) {
-      numArray[i] = Integer.parseInt(temp[i]);
-    }
-    return numArray;
-  }
+  // function to generate a word from a sequence of repeated numbers
+  public static String generateWord(String nums) {
+    // generated output word
+    String word = "";
+    // split number sequence into numbers
+    String[] splitNums = nums.split(" ");
 
-  public static boolean sameDigits(int[] digits) {
-    for(int i=0; i < digits.length; i++) {
-      if(digits[i] == digits[0]) {
-        continue;
+    // for each number
+    for (String num : splitNums) {
+      // split the number into digits
+      String[] splitNum = num.split("");
+      // initialize digits array of same length as number
+      int[] digits = new int[splitNum.length];
+      
+      // for each digit in the number
+      for(int i = 0; i < splitNum.length; i++) {
+        try {
+          // parse digit as correct type, then insert into digit array
+          digits[i] = Integer.parseInt(splitNum[i]);
+          // validate the digit is the same as first digit
+          // (if all digits are equal, number is a repeated number)
+          if (digits[i] != digits[0]) {
+            throw new NumberFormatException();
+          }
+        }
+        // throw error if digit could not be parsed,
+        // or if it is different than the other digits
+        catch (NumberFormatException ex) {
+          throw new InputMismatchException();
+        }
       }
-      else {
-        return false;
-      }
-    }
-    return true;
-  }
 
-  // function to convert an integer to the corresponding letters in the map object like when typing on a nokia-style keyboard where if you press 4+4+3+3+5+5+5+7 it would become the word 'help'
-  public static String generateQuery2(char[][] map) {
-    Scanner in = new Scanner(System.in);
-    in.useDelimiter(System.getProperty("line.separator")); // set scanner delimiter in order to stop scanning for new inputs when we hit a newline character/enter key
-    
-    int[][] inputNums = new int[160][];
-    int[] tempInput = new int[4];
-    String output = "";
-    for(int i=0; in.hasNextInt(); i++)
-    {
-      tempInput = numToDigitArray(in.nextInt());
-      inputNums[i] = tempInput;
-      if(inputNums[i] != null && inputNums[i].length <= map[inputNums[i][0]].length && sameDigits(inputNums[i])) {
-        output = output + map[inputNums[i][0]][inputNums[i].length-1];
-      }
+      // get corresponding chars for digit from numpad
+      char[] chars = numpad[digits[0]];
+      // append correct char to output word
+      word += chars[(digits.length - 1) % chars.length];
     }
-    in.close();
-    return output;
+
+    // return generated output word
+    return word;
   }
-  
-  
   
   public static void main(String[] args) {
+    Scanner in = new Scanner(System.in);
+    // program loop states
     boolean running = true;
     boolean asking = false;
+    // selected option
     int option = 1;
-    Scanner in = new Scanner(System.in);
 
+    // while the program is running
     while (running) {
+      // execute the selected option function
       switch (option) {
         case 1:
           try {
             System.out.print("Enter a sequence of digits: ");
             int digits = in.nextInt();
-            // Integer[] digits = handleInput(input);
             String[] combos = generateCombos(digits);
             System.out.println("All possible combinations are as follows:\n" + String.join(" ", combos));
           }
           catch (InputMismatchException ex) {
-            in.next();
-            System.out.println("Error: Input must be a sequence of digits");
+            System.out.println("Error: Input must be a sequence of digits.");
+          }
+          in.nextLine();
+          break;
+        case 2:
+          try {
+            System.out.println("(2: abc, 3: def, 4: ghi, 5: jkl, 6: mno, 7: pqrs, 8: tuv, 9: wxyz)");
+            System.out.print("Enter a sequence of repeated numbers, delimited by spaces: ");
+            String repeatNums = in.nextLine();
+            String word = generateWord(repeatNums);
+            System.out.println("Generated word: " + word);
+          }
+          catch (InputMismatchException ex) {
+            System.out.println("Error: Input must be a sequence of repeated numbers.");
           }
           break;
+        // if there is no function associated with the selected option
         default:
           System.out.println("Error: Invalid option.");
       }
 
+      // display options menu after function executes
       asking = true;
       while (asking) {
+        // list all options and prompt user to select option
         System.out.print(
-          "\n-=== OPTION MENU ===-\n"
+          "\n-=== OPTIONS MENU ===-\n"
           + "1) Generate all possible combinations\n"
           + "2) Generate your own word\n"
           + "3) Exit\n"
@@ -131,19 +146,25 @@ public class Main {
           );
 
         try {
+          // set selected option as next provided integer
           option = in.nextInt();
+          // once option is selected, stop displaying options menu
           System.out.println();
           asking = false;
+          // if user chose to exit, stop the program
           if (option == 3) running = false;
         }
+        // if selected option is not an integer
         catch (InputMismatchException ex) {
-          in.next();
-          System.out.println("Error: Option must be an integer)");
+          System.out.println("Error: Option must be an integer.");
         }
+        in.nextLine();
       }
     }
 
+    // stop the program when the user selects exit
     System.out.println("Exiting the program.");
+    // close scanner to prevent resource leaks
     in.close();
   }
 }
