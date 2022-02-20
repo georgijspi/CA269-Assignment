@@ -4,7 +4,9 @@
 - Georgijs Pitkevics - 19355266
 
 ## Description:
-Given a keypad and an n digit number provided by user, working in groups of 4, write a Java program to list (in alphabetical order) all letter combinations which are possible by pressing these digits. For example, if the input number is: 234
+Given a keypad and an n digit number provided by user, working in groups of 4, write a Java program to list (in alphabetical order) all letter combinations which are possible by pressing these digits.
+
+For example, if the input number is: 234
 
 The output should be:
 adg adh adi aeg aeh aei afg afh afi
