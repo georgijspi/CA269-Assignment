@@ -16,4 +16,4 @@ cdg cdh cdi ceg ceh cei cfg cfh cfi
 ## Work Breakdown
 We decided to work on our own solutions to the problem individually. We did so on separate branches within the same repo. Each branch was labelled after the person who worked on it. After working on solutions for about a week, we came together and looked through our individual code - comparing different elements and eventually merging into the final solution.
 
-Jed had the best solution to the generateCombos() problem, so his was used. Rishab's running loop in main() was used along with Georgijs's generateWords() feature. Both the main() and generateWords() functions were refactored and commented by Jed for efficiency and readability.
+Jed had the best solution to the generateCombos() problem, so his was used. Rishab's running loop in main() was used, along with Georgijs's generateWords() feature. Both the main() and generateWords() functions were refactored and commented by Jed for efficiency, integrity and readability.
